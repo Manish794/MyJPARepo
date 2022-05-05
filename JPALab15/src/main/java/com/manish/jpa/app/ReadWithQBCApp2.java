@@ -30,7 +30,7 @@ public class ReadWithQBCApp2 {
 			Root<Student> root = query.from(Student.class);
 			query.select(root);
 			Predicate pr1 = builder.like(root.get("sname"), "%a%");
-			Predicate pr2 = builder.like(root.get("email"), "%@oits.com");
+			Predicate pr2 = builder.like(root.get("email"), "%@gmail.com");
 			query.where(builder.and(pr1, pr2));
 			query.orderBy(builder.asc(root.get("cty")));
 			

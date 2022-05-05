@@ -17,8 +17,10 @@ public class ReadWithJPQLPositionalParamApp {
 			entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
 			tx = entityManager.getTransaction();
 			tx.begin();
-			Query qry = entityManager.createQuery("SELECT st from Student st where st.cty=?1");
+			Query qry = entityManager.createQuery("SELECT st from Student st where st.cty=?1 and st.email=?2");
 			qry.setParameter(1, "Blore");
+			qry.setParameter(2, "manish@gmail.com");
+			
 			List list = qry.getResultList();
 			if (list == null || list.size() == 0) {
 				System.out.println("Not Found");

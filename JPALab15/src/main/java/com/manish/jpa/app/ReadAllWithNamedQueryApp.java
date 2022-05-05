@@ -5,17 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
-import com.google.protobuf.AbstractMessage.Builder;
 import com.manish.jpa.app.entity.Student;
 import com.manish.jpa.app.util.JPAUtil;
 
-
-public class ReadWithQBCApp {
+public class ReadAllWithNamedQueryApp {
 	public static void main(String[] args) {
 		EntityManager entityManager = null;
 		EntityTransaction tx = null;
@@ -24,46 +18,9 @@ public class ReadWithQBCApp {
 			tx = entityManager.getTransaction();
 			tx.begin();
 
-			CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-			CriteriaQuery<Student> query = builder.createQuery(Student.class);
-			Root<Student> root = query.from(Student.class);
-			query.select(root);
-			
-			Predicate pr1 = builder.equal(root.get("cty"), "Blore");
-			Predicate pr2 = builder.equal(root.get("email"), "manish@gmail.com");
-			query.where(builder.and(pr1, pr2));
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			Query q = entityManager.createQuery(query);
-			List list = q.getResultList();
+			Query qry = entityManager.createNamedQuery("AllStudent");
+
+			List list = qry.getResultList();
 
 			if (list == null || list.size() == 0) {
 				System.out.println("Not Found");

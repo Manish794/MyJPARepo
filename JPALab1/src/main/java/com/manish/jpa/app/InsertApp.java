@@ -2,6 +2,7 @@ package com.manish.jpa.app;
 
 import java.util.Date;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import com.manish.jpa.app.entity.Employee;
 import com.manish.jpa.app.util.JPAUtil;
@@ -11,7 +12,9 @@ public class InsertApp {
 		EntityManager entityManager = null;
 		EntityTransaction tx = null;
 		try {
-			entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
+			EntityManagerFactory factory = JPAUtil.getEntityManagerFactory();
+			System.out.println(factory.getClass());
+			entityManager = factory.createEntityManager();
 			tx = entityManager.getTransaction();
 			tx.begin();
 			

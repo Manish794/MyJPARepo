@@ -10,13 +10,16 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 
-@NamedQueries({ @NamedQuery(name = "CityWiseStudent", query = "SELECT st from Student st where st.cty=?1")
-
+@NamedQueries({ 
+	@NamedQuery(name = "CityWiseStudent", query = "SELECT st from Student st where st.cty=?1"),
+	@NamedQuery(name = "AllStudent", query = "SELECT st from Student st")
 })
 @Entity
 @Table(name = "mystudent")
 @Data
+@ToString
 public class Student {
 
 	@Id

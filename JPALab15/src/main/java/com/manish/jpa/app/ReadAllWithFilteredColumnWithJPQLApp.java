@@ -9,7 +9,7 @@ import javax.persistence.Query;
 import com.manish.jpa.app.entity.Student;
 import com.manish.jpa.app.util.JPAUtil;
 
-public class ReadWithJPQLNamedParamApp {
+public class ReadAllWithFilteredColumnWithJPQLApp {
 	public static void main(String[] args) {
 		EntityManager entityManager = null;
 		EntityTransaction tx = null;
@@ -17,16 +17,20 @@ public class ReadWithJPQLNamedParamApp {
 			entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
 			tx = entityManager.getTransaction();
 			tx.begin();
-			Query qry = entityManager.createQuery("SELECT st from Student st where st.cty=:XY");
-			qry.setParameter("XY", "Hyd");
 			
+			
+			Query qry = entityManager.createQuery("SELECT st.sid, st.email from Student st");
 			List list = qry.getResultList();
+			
 			if (list == null || list.size() == 0) {
 				System.out.println("Not Found");
 			} else {
-				List<Student> studList = (List<Student>) list;
-				for (Student st : studList) {
-					System.out.println(st.getSid() + "\t" + st.getSname() + "\t" + st.getEmail() + "\t" + st.getCty());
+				List<Object[]> studList = (List<Object[]>) list;
+				for (Object[] values : studList) {
+					Integer id = (Integer) values[0];
+					String email = (String) values[1];
+
+					System.out.println(id + "\t" + email);
 				}
 			}
 			tx.commit();

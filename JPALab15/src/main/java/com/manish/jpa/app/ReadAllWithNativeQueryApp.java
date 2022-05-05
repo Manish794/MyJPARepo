@@ -4,12 +4,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Query;
 
-import com.manish.jpa.app.entity.Student;
 import com.manish.jpa.app.util.JPAUtil;
 
-public class ReadWithJPQLNamedParamApp {
+public class ReadAllWithNativeQueryApp {
 	public static void main(String[] args) {
 		EntityManager entityManager = null;
 		EntityTransaction tx = null;
@@ -17,16 +15,17 @@ public class ReadWithJPQLNamedParamApp {
 			entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
 			tx = entityManager.getTransaction();
 			tx.begin();
-			Query qry = entityManager.createQuery("SELECT st from Student st where st.cty=:XY");
-			qry.setParameter("XY", "Hyd");
-			
-			List list = qry.getResultList();
+
+			List<Object[]> list = entityManager.createNativeQuery("SELECT * FROM mystudent").getResultList();
 			if (list == null || list.size() == 0) {
 				System.out.println("Not Found");
 			} else {
-				List<Student> studList = (List<Student>) list;
-				for (Student st : studList) {
-					System.out.println(st.getSid() + "\t" + st.getSname() + "\t" + st.getEmail() + "\t" + st.getCty());
+				for (Object[] values : list) {
+					Integer id = (Integer) values[0];
+					String name = (String) values[1];
+					String email = (String) values[2];
+					String city = (String) values[3];
+					System.out.println(id + "\t" + name + "\t" + email + "\t" + city);
 				}
 			}
 			tx.commit();
